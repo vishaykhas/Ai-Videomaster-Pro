@@ -326,10 +326,23 @@ export const generateVideo = async (prompt: string, resolution: '720p'|'1080p' =
             return `${operation.response?.generatedVideos?.[0]?.video?.uri}&key=${process.env.API_KEY}`;
         } catch (e: any) {
             const errorMessage = e.message || JSON.stringify(e);
+            
+            // Handle Veo Billing/Key Error with Retry
             if (!retry && (errorMessage.includes("Requested entity was not found") || errorMessage.includes("404"))) {
-                await requestVeoKey();
-                return await attemptGeneration(true);
+                try {
+                    await requestVeoKey();
+                    // Check if key was actually selected before retrying
+                    const hasKey = await checkVeoKey();
+                    if (hasKey) {
+                        return await attemptGeneration(true);
+                    } else {
+                        throw new Error("API Key selection cancelled.");
+                    }
+                } catch (dialogError) {
+                    throw new Error("Failed to select API Key.");
+                }
             }
+            
             if (errorMessage.includes("Requested entity was not found")) {
                  throw new Error("Veo API Key Error: Please select a valid project with billing enabled.");
             }
@@ -341,12 +354,17 @@ export const generateVideo = async (prompt: string, resolution: '720p'|'1080p' =
 };
 
 export const checkVeoKey = async (): Promise<boolean> => {
-    if (window.aistudio && window.aistudio.hasSelectedApiKey) return await window.aistudio.hasSelectedApiKey();
-    return true; 
+    // Robust check for window.aistudio
+    if (typeof window !== 'undefined' && window.aistudio && window.aistudio.hasSelectedApiKey) {
+        return await window.aistudio.hasSelectedApiKey();
+    }
+    return true; // Fallback if not in environment that supports it
 };
 
 export const requestVeoKey = async (): Promise<void> => {
-    if (window.aistudio && window.aistudio.openSelectKey) await window.aistudio.openSelectKey();
+    if (typeof window !== 'undefined' && window.aistudio && window.aistudio.openSelectKey) {
+        await window.aistudio.openSelectKey();
+    }
 };
 
 export const generateThumbnailImage = async (topic: string, ratio: string = '16:9', lang: string = 'English', ref?: string | null): Promise<string> => {
@@ -557,7 +575,10 @@ export const editThumbnailImage = async (imgBase64: string, action: string, addi
 };
 
 export const playAudio = async (base64: string): Promise<void> => {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+    // Correct AudioContext initialization for cross-browser compatibility
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioContextClass({ sampleRate: 24000 });
+    
     const audioBuffer = await decodeAudioData(decode(base64), ctx, 24000, 1);
     const source = ctx.createBufferSource();
     source.buffer = audioBuffer;

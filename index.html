@@ -5,9 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI VideoMaster Pro</title>
+    <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Combined Font Import for English + Indian + International Languages -->
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Archivo+Black&family=Bangers&family=Bebas+Neue&family=Cabin&family=Cairo&family=Catamaran&family=Caveat&family=Comfortaa&family=Comic+Neue&family=Concert+One&family=Cookie&family=Courgette&family=Creepster&family=Dancing+Script&family=Dosis&family=Eb+Garamond&family=Exo+2&family=Fjalla+One&family=Francois+One&family=Fredoka+One&family=Gloria+Hallelujah&family=Great+Vibes&family=Heebo&family=Hind:wght@400;700&family=Impact&family=Indie+Flower&family=Josefin+Sans&family=Kanit&family=Kaushan+Script&family=Lato&family=Lilita+One&family=Lobster&family=Lora&family=Merriweather&family=Monoton&family=Montserrat&family=Mukta:wght@400;700&family=Noto+Sans&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Nunito&family=Open+Sans&family=Orbitron&family=Oswald&family=Oxygen&family=Pacifico&family=Patrick+Hand&family=Permanent+Marker&family=Playfair+Display&family=Poppins:wght@400;700&family=Press+Start+2P&family=Prompt&family=PT+Sans&family=PT+Serif&family=Quicksand&family=Raleway&family=Righteous&family=Roboto&family=Roboto+Condensed&family=Rubik&family=Russo+One&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Signika&family=Special+Elite&family=Teko&family=Titillium+Web&family=Ubuntu&family=Varela+Round&family=Work+Sans&family=Yanone+Kaffeesatz&family=Zilla+Slab&family=Rozha+One&family=Kalam:wght@400;700&family=Shrikhand&family=Baloo+Bhai+2:wght@400;700&family=Baloo+2:wght@400;700&family=Baloo+Da+2:wght@400;700&family=Baloo+Thambi+2:wght@400;700&family=Baloo+Tamma+2:wght@400;700&family=Galada&family=Kavoon&family=Ramabhadra&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -31,23 +30,12 @@
                 800: '#115e59',
                 900: '#134e4a',
               },
-              // Mapped to CSS Variables for Theming
               dark: {
-                800: 'var(--bg-card)',     // Cards / Panels
-                900: 'var(--bg-surface)',  // Sidebar / Inputs
-                950: 'var(--bg-base)',     // Main Background
-                700: 'var(--bg-hover)',    // Hover states
+                800: 'var(--bg-card)',
+                900: 'var(--bg-surface)',
+                950: 'var(--bg-base)',
+                700: 'var(--bg-hover)',
               },
-              gray: {
-                 800: 'var(--border-color)',
-                 700: 'var(--border-color-strong)',
-                 // Keep standard grays for things that shouldn't change heavily
-                 600: '#4b5563',
-                 500: '#6b7280',
-                 400: '#9ca3af',
-                 300: '#d1d5db',
-              },
-              // Semantic Text Colors
               theme: {
                  base: 'var(--text-main)',
                  muted: 'var(--text-sub)',
@@ -58,80 +46,62 @@
         }
       }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Archivo+Black&family=Bangers&family=Bebas+Neue&family=Cabin&family=Cairo&family=Catamaran&family=Caveat&family=Comfortaa&family=Comic+Neue&family=Concert+One&family=Cookie&family=Courgette&family=Creepster&family=Dancing+Script&family=Dosis&family=Eb+Garamond&family=Exo+2&family=Fjalla+One&family=Francois+One&family=Fredoka+One&family=Gloria+Hallelujah&family=Great+Vibes&family=Heebo&family=Hind:wght@400;700&family=Impact&family=Indie+Flower&family=Josefin+Sans&family=Kanit&family=Kaushan+Script&family=Lato&family=Lilita+One&family=Lobster&family=Lora&family=Merriweather&family=Monoton&family=Montserrat&family=Mukta:wght@400;700&family=Noto+Sans&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Nunito&family=Open+Sans&family=Orbitron&family=Oswald&family=Oxygen&family=Pacifico&family=Patrick+Hand&family=Permanent+Marker&family=Playfair+Display&family=Poppins:wght@400;700&family=Press+Start+2P&family=Prompt&family=PT+Sans&family=PT+Serif&family=Quicksand&family=Raleway&family=Righteous&family=Roboto&family=Roboto+Condensed&family=Rubik&family=Russo+One&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Signika&family=Special+Elite&family=Teko&family=Titillium+Web&family=Ubuntu&family=Varela+Round&family=Work+Sans&family=Yanone+Kaffeesatz&family=Zilla+Slab&family=Rozha+One&family=Kalam:wght@400;700&family=Shrikhand&family=Baloo+Bhai+2:wght@400;700&family=Baloo+2:wght@400;700&family=Baloo+Da+2:wght@400;700&family=Baloo+Thambi+2:wght@400;700&family=Baloo+Tamma+2:wght@400;700&family=Galada&family=Kavoon&family=Ramabhadra&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
     <style>
       :root {
-        /* DARK MODE (Default) */
-        --bg-base: #020617;    /* dark-950 */
-        --bg-surface: #0f172a; /* dark-900 */
-        --bg-card: #1e293b;    /* dark-800 */
-        --bg-hover: #334155;   /* dark-700 */
-        
+        --bg-base: #020617;
+        --bg-surface: #0f172a;
+        --bg-card: #1e293b;
+        --bg-hover: #334155;
         --text-main: #ffffff;
-        --text-sub: #9ca3af;   /* gray-400 */
+        --text-sub: #9ca3af;
         --text-inverted: #020617;
-
-        --border-color: #1f2937;        /* gray-800 */
-        --border-color-strong: #374151; /* gray-700 */
+        --border-color: #1f2937;
+        --border-color-strong: #374151;
       }
-
       html.light-mode {
-        /* LIGHT MODE */
-        --bg-base: #f1f5f9;    /* slate-100 */
-        --bg-surface: #ffffff; /* white */
-        --bg-card: #ffffff;    /* white */
-        --bg-hover: #e2e8f0;   /* slate-200 */
-
-        --text-main: #0f172a;  /* slate-900 */
-        --text-sub: #64748b;   /* slate-500 */
+        --bg-base: #f1f5f9;
+        --bg-surface: #ffffff;
+        --bg-card: #ffffff;
+        --bg-hover: #e2e8f0;
+        --text-main: #0f172a;
+        --text-sub: #64748b;
         --text-inverted: #ffffff;
-
-        --border-color: #e2e8f0;        /* slate-200 */
-        --border-color-strong: #cbd5e1; /* slate-300 */
+        --border-color: #e2e8f0;
+        --border-color-strong: #cbd5e1;
       }
-
       body {
         background-color: var(--bg-base);
         color: var(--text-main);
         transition: background-color 0.3s ease, color 0.3s ease;
       }
-
-      /* Transitions for theme changes */
       .transition-colors, .transition-all {
         transition-property: all;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 300ms;
       }
-
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: var(--bg-surface); 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: var(--border-color-strong); 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #475569; 
-      }
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: var(--bg-surface); }
+      ::-webkit-scrollbar-thumb { background: var(--border-color-strong); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

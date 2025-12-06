@@ -108,6 +108,18 @@ const VideoWizard: React.FC<VideoWizardProps> = ({ onBack }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [veoError, setVeoError] = useState<string | null>(null);
 
+  // --- Clean Up Audio Memory Leaks ---
+  useEffect(() => {
+      return () => {
+          if (audioRef.current) {
+              audioRef.current.pause();
+              if (audioRef.current.src) {
+                  URL.revokeObjectURL(audioRef.current.src);
+              }
+          }
+      };
+  }, []);
+
   // --- Helpers ---
   const detectSpeakers = (scriptText: string) => {
       // Robust Regex to find "**Name:**" or "Name:" or "Name (Role):" at start of lines

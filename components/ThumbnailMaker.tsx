@@ -99,13 +99,20 @@ const ThumbnailMaker: React.FC = () => {
     const [pastStates, setPastStates] = useState<{imageUrl: string, overlays: TextOverlay[]}[]>([]);
     const [futureStates, setFutureStates] = useState<{imageUrl: string, overlays: TextOverlay[]}[]>([]);
 
-    // --- Load History ---
+    // --- Load History with Hydration ---
     useEffect(() => {
         try {
             const saved = localStorage.getItem('thumbnail_history');
             if (saved) {
                 const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed)) setHistory(parsed);
+                if (Array.isArray(parsed)) {
+                    // HYDRATION FIX: Convert string dates back to Date objects
+                    const hydrated = parsed.map((item: any) => ({
+                        ...item,
+                        createdAt: new Date(item.createdAt)
+                    }));
+                    setHistory(hydrated);
+                }
             }
         } catch (e) {
             console.warn("Failed to load history", e);
@@ -417,8 +424,12 @@ const ThumbnailMaker: React.FC = () => {
 
             // 1. Setup Image
             const img = new Image();
+            img.crossOrigin = "anonymous"; // Fix for tainted canvas
             img.src = viewingItem.imageUrl;
-            await new Promise(resolve => { img.onload = resolve; });
+            await new Promise((resolve, reject) => { 
+                img.onload = resolve; 
+                img.onerror = reject;
+            });
 
             // Set canvas to full resolution of the image
             canvas.width = img.naturalWidth;
@@ -471,7 +482,7 @@ const ThumbnailMaker: React.FC = () => {
 
         } catch (e) {
             console.error("Download failed", e);
-            alert("Failed to generate composite download.");
+            alert("Failed to generate composite download. Tainted canvas may be preventing export.");
         } finally {
             setIsDownloading(false);
         }
@@ -759,7 +770,9 @@ const ThumbnailMaker: React.FC = () => {
                                 <div className="p-3">
                                     <p className="text-xs text-gray-400 line-clamp-1 font-medium group-hover:text-white">{item.topic}</p>
                                     <div className="flex items-center justify-between mt-2">
-                                        <span className="text-[10px] text-gray-500">{item.language} • {item.aspectRatio}</span>
+                                        <span className="text-[10px] text-gray-500">
+                                            {item.language} • {item.createdAt ? item.createdAt.toLocaleDateString() : 'N/A'}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
